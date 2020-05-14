@@ -4,16 +4,18 @@ import ListOfSym from './ListOfSym'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import {CheckStatus} from '../context/CheckStatus'
 
 
 function MainPage() {
     const t="Welcome Sanjana"
+    const user=React.useContext(CheckStatus)
     const [displaySym,setSym]=useState(false)
     const [displayDis,setDis]=useState(false)
     const [symp,setSymptom] = useState('')
     const [SympList,setList]=useState([])
     const [value, setValue] = React.useState();
-   
+    const [finalDis,setfinal]=useState('')
     const getSymptom = () => {
      console.log(symp)
      fetch('http://localhost:5000/login',{
@@ -34,6 +36,19 @@ function MainPage() {
 
 
       function getDisease() {     
+        fetch('http://localhost:5000/RandomForest',{
+      method: 'POST',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       },
+       body: JSON.stringify({
+        'symptom':user.symList})
+
+    }).then(res => res.json()).then(data => {
+      console.log(data.time);
+      setfinal(data.time)
+    });
         setDis(true)
        }
        
@@ -52,7 +67,7 @@ function MainPage() {
                     renderInput={(params) => <TextField {...params} label="Enter Symptom" variant="outlined" />}
     />
     
-             <Button style={{marginTop:'20px',marginRight:'96px',width:'300px'}}variant="contained" color="primary" onClick={getSymptom}>
+             <Button style={{marginTop:'20px',marginRight:'30px',width:'300px'}}variant="contained" color="primary" onClick={getSymptom}>
               Predict similar symptoms
              </Button>
            {displaySym ?
@@ -62,7 +77,7 @@ function MainPage() {
                 <ListOfSym props={SympList}/>
                </div>
                </div>
-               <Button style={{marginTop:'20px',marginRight:'96px',width:'300px'}}variant="contained" color="primary" onClick={getDisease}>
+               <Button style={{marginTop:'20px',marginRight:'30px',width:'300px'}}variant="contained" color="primary" onClick={getDisease}>
               Predict Disease
                 </Button>
                {displayDis ?
@@ -70,8 +85,8 @@ function MainPage() {
                <div style={{marginLeft:'180px',marginTop:'20px'}}>
                <TextField
           id="filled-read-only-input"
-          label="Disease"
-          defaultValue="Cancer"
+          label={finalDis}
+          defaultValue={finalDis}
           InputProps={{
             readOnly: true,
           }}
@@ -101,7 +116,6 @@ const top100Sym = [
   { title: 'nausea'},
   { title: 'unresponsiveness' },
   { title: 'chill' },
-  { title: 'Forrest Gump' },
   { title: 'pain chest'},
   { title: 'apyrexial' },
   { title: "decreased body weight" },
