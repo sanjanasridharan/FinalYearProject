@@ -6,21 +6,26 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
+import {CheckStatus} from '../context/CheckStatus'
+import '../login.css'
 // import {LoginTheme} from '../overrides/Theme'
 import MenuAppBar from './MenuAppBar'
 export default function LoginPage(){
   const history = useHistory();
+  const user=React.useContext(CheckStatus)
   const [username,setUsername] = React.useState('')
   const [password,setPassword] = React.useState('')
   const t="Prediction of Symptom and disease"
   const Submit = (e) => {
+    user.storeUsername(username)
     e.preventDefault();
     history.push('/MainPage')
   }
 
   return (
-      <div>
+      <div id='login'>
           <MenuAppBar props={t}/>
+          {/* <div style={{marginRight:1145,marginTop:120}}> */}
     <Container style={{marginTop:'50px'}} component="main" maxWidth="xs">
       <div>
         <Avatar className="avatar">
@@ -36,6 +41,7 @@ export default function LoginPage(){
         </form>
       </div>
     </Container>
+    {/* </div> */}
     </div>
   )
   }

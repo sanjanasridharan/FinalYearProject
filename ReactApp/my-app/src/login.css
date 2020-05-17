@@ -1,0 +1,11 @@
+#login
+{
+    background-image: url('./assests/login.jpg');
+    object-fit: contain;
+    overflow: hidden;
+     height: 900px;
+     background-position: right bottom;
+    /* position: relative; */
+    background-size: cover;
+    background-repeat: no-repeat;
+}

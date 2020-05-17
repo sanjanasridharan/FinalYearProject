@@ -1,0 +1,8 @@
+#ss
+{
+    background-image: url('./assests/doctor.jpg');
+    object-fit: cover;
+    /* position: relative; */
+    background-size: cover;
+    background-repeat: no-repeat;
+}
